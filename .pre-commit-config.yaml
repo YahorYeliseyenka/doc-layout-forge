@@ -28,6 +28,7 @@ repos:
           - pydantic-settings
           - types-PyYAML
           - types-requests
+          - types-aiofiles
 
   - repo: https://github.com/hadolint/hadolint
     rev: v2.13.1

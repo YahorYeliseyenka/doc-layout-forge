@@ -18,6 +18,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "aiofiles>=24.1.0",
     "ipykernel>=6.30.1",
     "pre-commit>=4.3.0",
 ]
