@@ -4,7 +4,7 @@ import yaml
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings
 
-ROOT_DIR = Path(__file__).resolve().parents[1]
+ROOT_DIR = Path(__file__).resolve().parents[2]
 
 
 class EnvSettings(BaseSettings):
@@ -14,13 +14,22 @@ class EnvSettings(BaseSettings):
     log_type: str
 
 
+class ModelCnf(BaseModel):
+    path: Path
+    device: str
+    imgsz: int
+    conf: float
+    warmup: bool
+    concurrent: int
+
+
 class Settings(BaseModel):
-    model_path: Path
+    model: ModelCnf
 
     @classmethod
     def from_yaml(cls) -> "Settings":
         yaml_config = yaml.safe_load((ROOT_DIR / "config.yaml").open("r")) or {}
-        yaml_config["model_path"] = ROOT_DIR / yaml_config["model_path"]
+        yaml_config["model"]["path"] = ROOT_DIR / yaml_config["model"]["path"]
         return cls(**yaml_config)
 
 

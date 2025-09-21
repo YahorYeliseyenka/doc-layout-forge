@@ -1,1 +1,7 @@
-model_path: models/doclayout_yolo_docstructbench_imgsz1024.pt
+model:
+  path: models/doclayout_yolo_docstructbench_imgsz1024.pt
+  device: cpu
+  imgsz: 1024
+  conf: 0.2
+  warmup: true
+  concurrent: 2
