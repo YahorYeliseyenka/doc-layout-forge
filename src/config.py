@@ -15,12 +15,12 @@ class EnvSettings(BaseSettings):
 
 
 class Settings(BaseModel):
-    root_dir: Path
+    model_path: Path
 
     @classmethod
     def from_yaml(cls) -> "Settings":
-        yaml_config = yaml.safe_load((ROOT_DIR / "config.yaml").open("r"))
-        yaml_config["root_dir"] = ROOT_DIR
+        yaml_config = yaml.safe_load((ROOT_DIR / "config.yaml").open("r")) or {}
+        yaml_config["model_path"] = ROOT_DIR / yaml_config["model_path"]
         return cls(**yaml_config)
 
 
