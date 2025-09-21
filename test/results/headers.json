@@ -1,0 +1,6 @@
+HTTP/1.1 200 OK
+date: Sun, 21 Sep 2025 15:58:01 GMT
+server: uvicorn
+x-metrics: {"metrics": {"precision": 1.0, "recall": 1.0, "f1": 1.0, "mIoU": 1.0, "mAP@0.5": 1.0}, "counts": {"tp": 9, "fp": 0, "fn": 0}}
+content-length: 1840588
+content-type: image/png

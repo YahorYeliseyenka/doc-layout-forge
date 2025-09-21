@@ -9,7 +9,7 @@ from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.responses import Response
 from PIL import Image
 
-from core import configure_logging, env, settings
+from core import configure_logging, env
 from core.tools import (
     draw_comparison_overlay,
     ensure_ndarray_rgb,
@@ -27,18 +27,16 @@ logger = logging.getLogger(__name__)
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     """Load model once; optional warmup; release on shutdown."""
     model = await AsyncYoloModel.create(
-        path=settings.model.path,
-        device=settings.model.device,
-        imgsz=settings.model.imgsz,
-        conf=settings.model.conf,
-        warmup=settings.model.warmup,
-        concurrent=settings.model.concurrent,
+        path=env.model_path,
+        device=env.model_device,
+        imgsz=env.model_imgsz,
+        conf=env.model_conf,
+        warmup=env.model_warmup,
+        concurrent=env.model_concurrent,
     )
     app.state.model = model
 
-    logger.info(
-        "Model initialized (path=%s, device=%s)", settings.model.path, settings.model.device
-    )
+    logger.info("Model initialized (path=%s, device=%s)", env.model_path, env.model_device)
 
     try:
         yield

@@ -1,7 +1,6 @@
 from pathlib import Path
 
-import yaml
-from pydantic import BaseModel
+from pydantic import field_validator
 from pydantic_settings import BaseSettings
 
 ROOT_DIR = Path(__file__).resolve().parents[2]
@@ -13,25 +12,17 @@ class EnvSettings(BaseSettings):
     log_level: str
     log_type: str
 
+    model_path: Path
+    model_device: str
+    model_imgsz: int
+    model_conf: float
+    model_warmup: bool
+    model_concurrent: int
 
-class ModelCnf(BaseModel):
-    path: Path
-    device: str
-    imgsz: int
-    conf: float
-    warmup: bool
-    concurrent: int
-
-
-class Settings(BaseModel):
-    model: ModelCnf
-
+    @field_validator("model_path", mode="before")
     @classmethod
-    def from_yaml(cls) -> "Settings":
-        yaml_config = yaml.safe_load((ROOT_DIR / "config.yaml").open("r")) or {}
-        yaml_config["model"]["path"] = ROOT_DIR / yaml_config["model"]["path"]
-        return cls(**yaml_config)
+    def _expand_model_path(cls, v: str) -> Path:
+        return ROOT_DIR / v
 
 
 env = EnvSettings()
-settings = Settings.from_yaml()

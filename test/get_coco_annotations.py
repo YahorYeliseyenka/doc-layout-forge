@@ -7,7 +7,7 @@ import aiofiles
 import numpy as np
 from PIL import Image
 
-from core import settings
+from core import env
 from model import AsyncYoloModel
 
 
@@ -122,12 +122,12 @@ async def main() -> None:
     out_file = sys.argv[2]
 
     model = await AsyncYoloModel.create(
-        path=settings.model.path,
-        device=settings.model.device,
-        imgsz=settings.model.imgsz,
-        conf=settings.model.conf,
-        warmup=settings.model.warmup,
-        concurrent=settings.model.concurrent,
+        path=env.model_path,
+        device=env.model_device,
+        imgsz=env.model_imgsz,
+        conf=env.model_conf,
+        warmup=env.model_warmup,
+        concurrent=env.model_concurrent,
     )
 
     try:
